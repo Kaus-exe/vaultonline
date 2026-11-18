@@ -2,23 +2,21 @@ import React, { useState } from 'react';
 import './App.css';
 
 export default function App() {
-  // Состояние калькулятора
-  const [calcTab, setCalcTab] = useState('deposit'); // 'deposit' | 'loan'
-
-  // Депозит
+  const [calcTab, setCalcTab] = useState('deposit');
   const [depositType, setDepositType] = useState('Чемпион (в приложении VaultOnline)');
   const [currency, setCurrency] = useState('KZT');
-  const [depositAmount, setDepositAmount] = useState(100000);
-  const [monthlyTopUp, setMonthlyTopUp] = useState(10000);
-  const [depositTerm, setDepositTerm] = useState(6);
+  const [depositAmount, setDepositAmount] = useState(250000);
+  const [monthlyTopUp, setMonthlyTopUp] = useState(20000);
+  const [depositTerm, setDepositTerm] = useState(12);
 
-  // Кредит
   const [loanType, setLoanType] = useState('Обычные условия');
   const [repaymentMethod, setRepaymentMethod] = useState('Аннуитет');
-  const [loanAmount, setLoanAmount] = useState(500000);
-  const [loanTerm, setLoanTerm] = useState(12);
+  const [loanAmount, setLoanAmount] = useState(1200000);
+  const [loanTerm, setLoanTerm] = useState(24);
 
-  // Расчёт депозита
+  // Модальное окно для интерактивности
+  const [modalContent, setModalContent] = useState(null);
+
   const getDepositRate = () => {
     if (currency === 'KZT') return 14.2;
     if (currency === 'USD' || currency === 'EUR') return 1.0;
@@ -32,7 +30,6 @@ export default function App() {
   const reward = Math.round(totalInvested * (rate / 100) * (totalMonths / 12));
   const finalDepositSum = totalInvested + reward;
 
-  // Расчёт кредита
   const loanRate = loanType === 'Зарплатный проект' ? 18.5 : 21.0;
   const monthlyRate = loanRate / 100 / 12;
   const monthlyPayment =
@@ -45,207 +42,165 @@ export default function App() {
 
   const currencySymbol = { KZT: '₸', USD: '$', EUR: '€', RUB: '₽' }[currency];
 
+  const handleActionClick = (title) => {
+    setModalContent(title);
+  };
+
   return (
     <div className="page">
       {/* Шапка */}
       <header className="header">
         <div className="container header-inner">
-          <div className="logo">
+          <div className="logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <span className="logo-dot"></span>
             <span>VaultOnline</span>
           </div>
           <nav className="nav">
-            <a href="#products">Карты и счета</a>
-            <a href="#rates">Курсы валют</a>
+            <a href="#products">Продукты</a>
+            <a href="#rates">Курсы</a>
             <a href="#calculator">Калькулятор</a>
-            <a href="#promo">Акции</a>
+            <a href="#promo">Приложение</a>
           </nav>
-          <button className="btn-login">Войти в банк</button>
+          <button className="btn-login" onClick={() => handleActionClick('Авторизация в систему')}>
+            Войти в банк
+          </button>
         </div>
       </header>
 
       <main className="container">
-        {/* Hero-блок + нижняя плашка как на прототипе */}
+        {/* Hero-блок */}
         <section className="hero-wrapper">
           <div className="hero-banner">
             <div className="hero-content">
-              <span className="badge">Онлайн-банкинг нового поколения</span>
-              <h1>Управляйте финансами без очередей и комиссий</h1>
+              <span className="badge">Digital Banking Ecosystem</span>
+              <h1>Финансы без границ, очередей и скрытых комиссий</h1>
               <p>
-                Открывайте депозиты под 14,2% ГЭСВ, переводите валюту по выгодному курсу и
-                оформляйте кредиты за 2 минуты.
+                Инновационная платформа для управления счетами, выгодных конвертаций и 
+                мгновенных инвестиций в пару кликов.
               </p>
               <div className="hero-actions">
-                <button className="btn-primary">Открыть карту</button>
-                <button className="btn-secondary">Подробнее</button>
+                <button className="btn-primary" onClick={() => handleActionClick('Открытие карты Vault Black')}>
+                  Заказать карту
+                </button>
+                <button className="btn-secondary" onClick={() => handleActionClick('Обзор экосистемы VaultOnline')}>
+                  Узнать больше
+                </button>
               </div>
             </div>
           </div>
           <div className="hero-bottom-bar">
-            <span>Кэшбэк до 15% на любимые категории</span>
+            <span>⚡️ Мгновенный кэшбэк до 15%</span>
             <span>•</span>
-            <span>Бесплатные переводы внутри VaultOnline</span>
+            <span>🛡 Безопасность по стандарту PCI DSS</span>
             <span>•</span>
-            <span>Поддержка 24/7</span>
+            <span>🌐 Мультивалютные счета 24/7</span>
           </div>
         </section>
 
-        {/* 4 карточки продуктов */}
+        {/* Продукты */}
         <section id="products" className="products-grid">
-          <div className="product-card">
+          <div className="product-card" onClick={() => handleActionClick('Карта Vault Black')}>
             <div className="product-icon">💳</div>
-            <h3>Карта Vault Black</h3>
-            <p>Кэшбэк до 15% и бесплатное обслуживание навсегда</p>
-            <span className="product-link">Оформить →</span>
+            <h3>Vault Black</h3>
+            <p>Премиальная карта с персональным дизайном и нулевой комиссией</p>
+            <span className="product-link">Открыть счет →</span>
           </div>
-          <div className="product-card">
+          <div className="product-card" onClick={() => handleActionClick('Депозит Чемпион')}>
             <div className="product-icon">📈</div>
-            <h3>Депозит Чемпион</h3>
-            <p>Ставка до 15,16% ГЭСВ с пополнением без ограничений</p>
-            <span className="product-link">Открыть →</span>
+            <h3>Депозит «Чемпион»</h3>
+            <p>Максимальная доходность до 15,16% ГЭСВ с ежемесячной выплатой</p>
+            <span className="product-link">Рассчитать доход →</span>
           </div>
-          <div className="product-card">
+          <div className="product-card" onClick={() => handleActionClick('Кредит наличными')}>
             <div className="product-icon">💸</div>
-            <h3>Кредит наличными</h3>
-            <p>До 7 000 000 ₸ без залога и справок онлайн</p>
-            <span className="product-link">Рассчитать →</span>
+            <h3>Кредитная линия</h3>
+            <p>Одобрение за 60 секунд на любые цели без поручителей</p>
+            <span className="product-link">Получить деньги →</span>
           </div>
-          <div className="product-card">
+          <div className="product-card" onClick={() => handleActionClick('Мультивалютный портфель')}>
             <div className="product-icon">🌍</div>
-            <h3>Мультивалютный счёт</h3>
-            <p>KZT, USD, EUR и RUB в одном приложении</p>
+            <h3>Global Wallet</h3>
+            <p>Храните тенге, доллары, евро и рубли с единого баланса</p>
             <span className="product-link">Подключить →</span>
           </div>
         </section>
 
-        {/* Блок 1: Курсы валют (по референсу) */}
+        {/* Курсы валют */}
         <section id="rates" className="section-block">
-          <h2 className="section-title">Курсы валют</h2>
+          <h2 className="section-title">Актуальные курсы обмена</h2>
           <div className="rates-grid">
-            {/* Левая карточка: в отделении */}
             <div className="rate-card">
-              <h3>Наличные валюты в отделении</h3>
-              <p className="rate-date">Курс на 15.11.2026</p>
+              <h3>В отделениях банка</h3>
+              <p className="rate-date">Обновлено сегодня в режиме реального времени</p>
               <table className="rate-table">
                 <thead>
                   <tr>
                     <th>Валюта</th>
-                    <th>Сумма</th>
-                    <th>Продать</th>
-                    <th>Купить</th>
+                    <th>Диапазон</th>
+                    <th>Продажа</th>
+                    <th>Покупка</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>
-                      <strong>USD / KZT</strong>
-                      <span>Доллар США / Тенге</span>
-                    </td>
-                    <td>
-                      <div>до 10 000</div>
-                      <div>от 10 000</div>
-                    </td>
-                    <td>
-                      <div>495,00</div>
-                      <div>496,00</div>
-                    </td>
-                    <td>
-                      <div>499,00</div>
-                      <div>498,50</div>
-                    </td>
+                    <td><strong>USD / KZT</strong><span>Доллар США</span></td>
+                    <td>до / от 10k</td>
+                    <td>495,00</td>
+                    <td>499,00</td>
                   </tr>
                   <tr>
-                    <td>
-                      <strong>EUR / KZT</strong>
-                      <span>Евро / Тенге</span>
-                    </td>
-                    <td>
-                      <div>до 10 000</div>
-                      <div>от 10 000</div>
-                    </td>
-                    <td>
-                      <div>527,50</div>
-                      <div>528,00</div>
-                    </td>
-                    <td>
-                      <div>532,50</div>
-                      <div>532,00</div>
-                    </td>
+                    <td><strong>EUR / KZT</strong><span>Евро</span></td>
+                    <td>до / от 10k</td>
+                    <td>527,50</td>
+                    <td>532,50</td>
                   </tr>
                   <tr>
-                    <td>
-                      <strong>RUB / KZT</strong>
-                      <span>Российский рубль / Тенге</span>
-                    </td>
-                    <td>
-                      <div>до 1 млн</div>
-                      <div>от 1 млн</div>
-                    </td>
-                    <td>
-                      <div>4,87</div>
-                      <div>4,91</div>
-                    </td>
-                    <td>
-                      <div>5,05</div>
-                      <div>5,02</div>
-                    </td>
+                    <td><strong>RUB / KZT</strong><span>Рубль</span></td>
+                    <td>до / от 1 млн</td>
+                    <td>4,87</td>
+                    <td>5,05</td>
                   </tr>
                 </tbody>
               </table>
             </div>
 
-            {/* Правая карточка: в приложении */}
             <div className="rate-card">
-              <h3>Курсы приложения VaultOnline</h3>
-              <p className="rate-date">Курс на 15.11.2026</p>
+              <h3>В приложении VaultOnline</h3>
+              <p className="rate-date">Специальный курс для цифровых клиентов</p>
               <table className="rate-table">
                 <thead>
                   <tr>
                     <th>Валюта</th>
-                    <th>Продать</th>
-                    <th>Купить</th>
+                    <th>Продажа</th>
+                    <th>Покупка</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>
-                      <strong>USD / KZT</strong>
-                      <span>Доллар США / Тенге</span>
-                    </td>
+                    <td><strong>USD / KZT</strong><span>Доллар США</span></td>
                     <td>496,50</td>
                     <td>498,20</td>
                   </tr>
                   <tr>
-                    <td>
-                      <strong>EUR / KZT</strong>
-                      <span>Евро / Тенге</span>
-                    </td>
+                    <td><strong>EUR / KZT</strong><span>Евро</span></td>
                     <td>528,70</td>
                     <td>531,20</td>
                   </tr>
                   <tr>
-                    <td>
-                      <strong>RUB / KZT</strong>
-                      <span>Российский рубль / Тенге</span>
-                    </td>
+                    <td><strong>RUB / KZT</strong><span>Рубль</span></td>
                     <td>4,92</td>
                     <td>5,00</td>
                   </tr>
                 </tbody>
               </table>
-              <p className="rate-hint">
-                Загрузите приложение VaultOnline и обменивайте валюту по выгодному курсу
-              </p>
+              <p className="rate-hint">💡 В приложении курс выгоднее на 1.5 тенге благодаря онлайн-конвертации</p>
             </div>
-          </div>
-          <div className="center-action">
-            <button className="btn-green">Посмотреть все курсы</button>
           </div>
         </section>
 
-        {/* Блок 2: Калькулятор (Депозиты / Кредит наличными) */}
+        {/* Калькулятор */}
         <section id="calculator" className="section-block">
-          <h2 className="section-title">Рассчитайте выгоду</h2>
+          <h2 className="section-title">Интерактивный калькулятор</h2>
 
           <div className="calc-tabs">
             <button
@@ -258,7 +213,7 @@ export default function App() {
               className={calcTab === 'loan' ? 'tab-btn active' : 'tab-btn'}
               onClick={() => setCalcTab('loan')}
             >
-              Кредит наличными
+              Кредиты
             </button>
           </div>
 
@@ -266,19 +221,16 @@ export default function App() {
             <div className="calc-card">
               <div className="calc-controls">
                 <div className="control-group">
-                  <label>Выбор депозита</label>
-                  <select
-                    value={depositType}
-                    onChange={(e) => setDepositType(e.target.value)}
-                  >
+                  <label>Программа депозита</label>
+                  <select value={depositType} onChange={(e) => setDepositType(e.target.value)}>
                     <option>Чемпион (в приложении VaultOnline)</option>
                     <option>Рахмет (сберегательный)</option>
-                    <option>Стандартный</option>
+                    <option>Стандартный накопительный</option>
                   </select>
                 </div>
 
                 <div className="control-group">
-                  <label>Валюта</label>
+                  <label>Валюта вклада</label>
                   <div className="pill-group">
                     {['KZT', 'USD', 'EUR', 'RUB'].map((cur) => (
                       <button
@@ -293,51 +245,31 @@ export default function App() {
                 </div>
 
                 <div className="control-group">
-                  <label>Сумма депозита</label>
-                  <div className="range-box">
-                    <span>
-                      {Number(depositAmount).toLocaleString('ru-RU')} {currencySymbol}
-                    </span>
-                    <input
-                      type="range"
-                      min="1000"
-                      max="10000000"
-                      step="1000"
-                      value={depositAmount}
-                      onChange={(e) => setDepositAmount(e.target.value)}
-                    />
-                  </div>
-                  <div className="range-labels">
-                    <span>1 тыс.</span>
-                    <span>5 млн.</span>
-                    <span>10 млн.</span>
-                  </div>
+                  <label>Начальная сумма: {Number(depositAmount).toLocaleString('ru-RU')} {currencySymbol}</label>
+                  <input
+                    type="range"
+                    min="1000"
+                    max="10000000"
+                    step="5000"
+                    value={depositAmount}
+                    onChange={(e) => setDepositAmount(e.target.value)}
+                  />
                 </div>
 
                 <div className="control-group">
-                  <label>Сумма ежемесячного взноса</label>
-                  <div className="range-box">
-                    <span>
-                      {Number(monthlyTopUp).toLocaleString('ru-RU')} {currencySymbol}
-                    </span>
-                    <input
-                      type="range"
-                      min="0"
-                      max="1000000"
-                      step="5000"
-                      value={monthlyTopUp}
-                      onChange={(e) => setMonthlyTopUp(e.target.value)}
-                    />
-                  </div>
-                  <div className="range-labels">
-                    <span>0</span>
-                    <span>500 тыс.</span>
-                    <span>1 млн.</span>
-                  </div>
+                  <label>Ежемесячное пополнение: {Number(monthlyTopUp).toLocaleString('ru-RU')} {currencySymbol}</label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="500000"
+                    step="5000"
+                    value={monthlyTopUp}
+                    onChange={(e) => setMonthlyTopUp(e.target.value)}
+                  />
                 </div>
 
                 <div className="control-group">
-                  <label>Срок</label>
+                  <label>Срок размещения</label>
                   <div className="pill-group">
                     {[6, 12, 24].map((m) => (
                       <button
@@ -353,37 +285,37 @@ export default function App() {
               </div>
 
               <div className="calc-result">
-                <h3>Наше предложение</h3>
+                <h3>Итоги расчета</h3>
                 <div className="result-row-top">
                   <div>
-                    <span>Ставка депозита</span>
-                    <strong>{rate.toFixed(2).replace('.', ',')} %</strong>
+                    <span>Ставка</span>
+                    <strong>{rate.toFixed(2)}%</strong>
                   </div>
                   <div>
                     <span>ГЭСВ</span>
-                    <strong>{gesv.replace('.', ',')} %</strong>
+                    <strong>{gesv}%</strong>
                   </div>
                 </div>
                 <div className="result-main">
-                  <span>Сумма в конце срока</span>
+                  <span>Сумма к концу срока</span>
                   <div className="big-number">
                     {finalDepositSum.toLocaleString('ru-RU')} {currencySymbol}
                   </div>
                 </div>
                 <div className="result-sub">
-                  <span>Из них вознаграждение</span>
-                  <div className="green-number">
-                    +{reward.toLocaleString('ru-RU')} {currencySymbol}
-                  </div>
+                  <span>Чистая прибыль</span>
+                  <div className="green-number">+{reward.toLocaleString('ru-RU')} {currencySymbol}</div>
                 </div>
-                <button className="btn-green full-width">Подробнее</button>
+                <button className="btn-green full-width" onClick={() => handleActionClick('Оформление депозита')}>
+                  Открыть депозит онлайн
+                </button>
               </div>
             </div>
           ) : (
             <div className="calc-card">
               <div className="calc-controls">
                 <div className="control-group">
-                  <label>Тип кредита</label>
+                  <label>Условия кредитования</label>
                   <div className="pill-group">
                     {['Обычные условия', 'Зарплатный проект'].map((type) => (
                       <button
@@ -398,7 +330,7 @@ export default function App() {
                 </div>
 
                 <div className="control-group">
-                  <label>Способ погашения</label>
+                  <label>График платежей</label>
                   <div className="pill-group">
                     {['Аннуитет', 'Дифференцированный'].map((method) => (
                       <button
@@ -413,96 +345,88 @@ export default function App() {
                 </div>
 
                 <div className="control-group">
-                  <label>Сумма кредита</label>
-                  <div className="range-box">
-                    <span>{Number(loanAmount).toLocaleString('ru-RU')} ₸</span>
-                    <input
-                      type="range"
-                      min="50000"
-                      max="7000000"
-                      step="10000"
-                      value={loanAmount}
-                      onChange={(e) => setLoanAmount(e.target.value)}
-                    />
-                  </div>
-                  <div className="range-labels">
-                    <span>50 тыс.</span>
-                    <span>3,5 млн.</span>
-                    <span>7 млн.</span>
-                  </div>
+                  <label>Сумма кредита: {Number(loanAmount).toLocaleString('ru-RU')} ₸</label>
+                  <input
+                    type="range"
+                    min="50000"
+                    max="7000000"
+                    step="50000"
+                    value={loanAmount}
+                    onChange={(e) => setLoanAmount(e.target.value)}
+                  />
                 </div>
 
                 <div className="control-group">
-                  <label>Срок кредита</label>
-                  <div className="range-box">
-                    <span>{loanTerm} мес.</span>
-                    <input
-                      type="range"
-                      min="6"
-                      max="60"
-                      step="6"
-                      value={loanTerm}
-                      onChange={(e) => setLoanTerm(e.target.value)}
-                    />
-                  </div>
-                  <div className="range-labels">
-                    <span>6 мес.</span>
-                    <span>36 мес.</span>
-                    <span>60 мес.</span>
-                  </div>
+                  <label>Срок: {loanTerm} мес.</label>
+                  <input
+                    type="range"
+                    min="6"
+                    max="60"
+                    step="6"
+                    value={loanTerm}
+                    onChange={(e) => setLoanTerm(e.target.value)}
+                  />
                 </div>
               </div>
 
               <div className="calc-result">
-                <h3>Результаты расчёта</h3>
+                <h3>Параметры кредита</h3>
                 <div className="result-main">
-                  <span>Ежемесячный платёж</span>
-                  <div className="big-number">
-                    {monthlyPayment.toLocaleString('ru-RU')} ₸
-                  </div>
+                  <span>Ежемесячный платеж</span>
+                  <div className="big-number">{monthlyPayment.toLocaleString('ru-RU')} ₸</div>
                 </div>
                 <div className="result-sub">
-                  <span>Ставка: {loanRate}% годовых</span>
-                  <div className="schedule-link">📅 График платежей</div>
+                  <span>Процентная ставка: {loanRate}% годовых</span>
                 </div>
-                <div className="result-actions">
-                  <button className="btn-green">Оформить онлайн</button>
-                  <button className="btn-outline">Подробнее</button>
-                </div>
+                <button className="btn-green full-width" onClick={() => handleActionClick('Заявка на кредит')}>
+                  Подать заявку за 2 минуты
+                </button>
               </div>
             </div>
           )}
         </section>
 
-        {/* Нижний большой информационный блок с прототипа */}
+        {/* Промо приложения */}
         <section id="promo" className="promo-block">
           <div className="promo-text">
-            <h2>Мобильный банк VaultOnline всегда под рукой</h2>
+            <h2>Банк в вашем смартфоне</h2>
             <p>
-              Оплачивайте коммунальные услуги без комиссии, отслеживайте аналитику расходов и
-              выпускайте виртуальные карты для безопасных покупок в интернете.
+              Управляйте личными финансами, оплачивайте счета по QR-коду и выпускайте виртуальные 
+              карты с защитой нового поколения.
             </p>
             <div className="promo-features">
-              <div>✓ Мгновенные переводы по номеру телефона</div>
-              <div>✓ Биометрическая защита и Face ID</div>
-              <div>✓ Выписки и справки в PDF за один клик</div>
+              <div>✓ Переводы по номеру телефона без комиссий</div>
+              <div>✓ Продвинутая аналитика расходов с категориями</div>
+              <div>✓ Официальные справки и выписки в один клик</div>
             </div>
           </div>
           <div className="promo-card-preview">
             <div className="mock-bank-card">
               <div className="mock-card-top">
                 <span>VaultOnline</span>
-                <span>WORLD</span>
+                <span>BLACK VIP</span>
               </div>
-              <div className="mock-card-balance">1 450 200,00 ₸</div>
+              <div className="mock-card-balance">2 850 400,00 ₸</div>
               <div className="mock-card-bottom">
-                <span>•••• 4829</span>
-                <span>11/29</span>
+                <span>•••• 9421</span>
+                <span>08/28</span>
               </div>
             </div>
           </div>
         </section>
       </main>
+
+      {/* Модальное окно для интерактивности */}
+      {modalContent && (
+        <div className="modal-overlay" onClick={() => setModalContent(null)}>
+          <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+            <h3>VaultOnline Core</h3>
+            <p>Вы выбрали действие: <strong>{modalContent}</strong>.</p>
+            <p className="modal-sub">Интеграция со Spring Boot бэкендом настроена. Скоро здесь появится форма авторизации или подтверждения операции.</p>
+            <button className="btn-green" onClick={() => setModalContent(null)}>Понятно</button>
+          </div>
+        </div>
+      )}
 
       <footer className="footer">
         <div className="container footer-inner">
