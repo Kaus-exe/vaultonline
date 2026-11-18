@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import './App.css';
+import Portal from './components/Portal';
 
 export default function App() {
   const [calcTab, setCalcTab] = useState('deposit');
+  const [showPortal, setShowPortal] = useState(false);
   const [depositType, setDepositType] = useState('Чемпион (в приложении VaultOnline)');
   const [currency, setCurrency] = useState('KZT');
   const [depositAmount, setDepositAmount] = useState(250000);
@@ -61,7 +63,7 @@ export default function App() {
             <a href="#calculator">Калькулятор</a>
             <a href="#promo">Приложение</a>
           </nav>
-          <button className="btn-login" onClick={() => handleActionClick('Авторизация в систему')}>
+          <button className="btn-login" onClick={() => setShowPortal(true)}>
             Войти в банк
           </button>
         </div>
