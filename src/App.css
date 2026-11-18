@@ -1,0 +1,606 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Inter, sans-serif;
+  background-color: #f4f5f7;
+  color: #1f2329;
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Шапка */
+.header {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-inner {
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.logo-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #16a34a;
+  display: inline-block;
+}
+
+.nav {
+  display: flex;
+  gap: 28px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #4b5563;
+  font-size: 15px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav a:hover {
+  color: #16a34a;
+}
+
+.btn-login {
+  background: #1f2329;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Hero */
+.hero-wrapper {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-banner {
+  width: 100%;
+  background: linear-gradient(135deg, #272b33 0%, #16181d 100%);
+  color: #fff;
+  border-radius: 24px;
+  padding: 52px 48px;
+}
+
+.hero-content {
+  max-width: 620px;
+}
+
+.badge {
+  display: inline-block;
+  background: rgba(22, 163, 74, 0.2);
+  color: #4ade80;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.hero-banner h1 {
+  font-size: 36px;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+
+.hero-banner p {
+  color: #cbd5e1;
+  font-size: 16px;
+  margin-bottom: 28px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-primary {
+  background: #16a34a;
+  color: #fff;
+  border: none;
+  padding: 13px 26px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border: none;
+  padding: 13px 26px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.hero-bottom-bar {
+  width: 88%;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 14px 24px;
+  margin-top: -22px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+/* 4 карточки продуктов */
+.products-grid {
+  margin-top: 36px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.product-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+}
+
+.product-icon {
+  font-size: 28px;
+  margin-bottom: 14px;
+}
+
+.product-card h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.product-card p {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 18px;
+}
+
+.product-link {
+  color: #16a34a;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Секции */
+.section-block {
+  margin-top: 44px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 36px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.section-title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+/* Курсы валют */
+.rates-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.rate-card {
+  background: #f8f9fb;
+  border-radius: 18px;
+  padding: 24px;
+}
+
+.rate-card h3 {
+  font-size: 17px;
+  margin-bottom: 4px;
+}
+
+.rate-date {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-bottom: 18px;
+}
+
+.rate-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.rate-table th {
+  text-align: left;
+  color: #9ca3af;
+  font-weight: 500;
+  font-size: 12px;
+  padding-bottom: 10px;
+}
+
+.rate-table td {
+  padding: 12px 0;
+  border-top: 1px solid #e5e7eb;
+  vertical-align: middle;
+}
+
+.rate-table td strong {
+  display: block;
+  font-size: 14px;
+}
+
+.rate-table td span {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.rate-hint {
+  margin-top: 16px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.center-action {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.btn-green {
+  background: #16a34a;
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn-green:hover {
+  background: #15803d;
+}
+
+/* Калькулятор */
+.calc-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.tab-btn {
+  background: #f3f4f6;
+  color: #374151;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background: #1f2329;
+  color: #ffffff;
+}
+
+.calc-card {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.control-group {
+  margin-bottom: 20px;
+}
+
+.control-group label {
+  display: block;
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.control-group select {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  font-size: 14px;
+}
+
+.pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill {
+  background: #f3f4f6;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #374151;
+}
+
+.pill.active {
+  background: #1f2329;
+  color: #ffffff;
+}
+
+.range-box {
+  background: #f3f4f6;
+  border-radius: 10px;
+  padding: 10px 14px 4px;
+}
+
+.range-box span {
+  display: block;
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.range-box input[type='range'] {
+  width: 100%;
+  accent-color: #16a34a;
+  cursor: pointer;
+}
+
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 4px;
+}
+
+.calc-result {
+  background: #f4f6f9;
+  border-radius: 18px;
+  padding: 28px;
+}
+
+.calc-result h3 {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.result-row-top {
+  display: flex;
+  gap: 36px;
+  margin-bottom: 20px;
+}
+
+.result-row-top span,
+.result-main span,
+.result-sub span {
+  display: block;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.result-row-top strong {
+  font-size: 22px;
+}
+
+.result-main {
+  margin-bottom: 16px;
+}
+
+.big-number {
+  font-size: 28px;
+  font-weight: 800;
+  margin-top: 2px;
+}
+
+.result-sub {
+  margin-bottom: 24px;
+}
+
+.green-number {
+  font-size: 20px;
+  font-weight: 700;
+  color: #16a34a;
+}
+
+.schedule-link {
+  color: #16a34a;
+  font-weight: 600;
+  font-size: 13px;
+  margin-top: 6px;
+  cursor: pointer;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.result-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-outline {
+  background: #ffffff;
+  color: #1f2329;
+  border: 1px solid #d1d5db;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Нижний блок */
+.promo-block {
+  margin-top: 44px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 40px;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+
+.promo-text h2 {
+  font-size: 26px;
+  margin-bottom: 12px;
+}
+
+.promo-text p {
+  color: #4b5563;
+  margin-bottom: 20px;
+}
+
+.promo-features {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 500;
+  color: #1f2329;
+}
+
+.mock-bank-card {
+  background: linear-gradient(135deg, #1f2329 0%, #16a34a 140%);
+  color: #fff;
+  border-radius: 20px;
+  padding: 28px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 16px 32px rgba(22, 163, 74, 0.2);
+}
+
+.mock-card-top,
+.mock-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.mock-card-balance {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+/* Футер */
+.footer {
+  margin-top: 56px;
+  background: #1f2329;
+  color: #9ca3af;
+  padding: 28px 0;
+  font-size: 14px;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Модальное окно */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-box {
+  background: #1e1e24;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.modal-box h3 {
+  margin-bottom: 15px;
+  color: #4ade80;
+}
+
+.modal-sub {
+  font-size: 14px;
+  color: #9ca3af;
+  margin: 15px 0 25px;
+  line-height: 1.5;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 900px) {
+  .products-grid,
+  .rates-grid,
+  .calc-card,
+  .promo-block {
+    grid-template-columns: 1fr;
+  }
+  .hero-bottom-bar {
+    flex-direction: column;
+    text-align: center;
+    gap: 6px;
+  }
+}
