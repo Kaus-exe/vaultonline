@@ -48,6 +48,8 @@ export default function App() {
     setModalContent(title);
   };
 
+  if (showPortal) return <Portal onBack={() => setShowPortal(false)} />;
+
   return (
     <div className="page">
       {/* Шапка */}
