@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import Portal from './components/Portal';
+import qrCodeImg from './assets/qr-code.png';
 
 export default function App() {
   const [calcTab, setCalcTab] = useState('deposit');
@@ -391,6 +392,7 @@ export default function App() {
         </section>
 
         {/* Промо приложения */}
+      
         <section id="promo" className="promo-block">
           <div className="promo-text">
             <h2>Банк в вашем смартфоне</h2>
@@ -404,23 +406,19 @@ export default function App() {
               <div>✓ Официальные справки и выписки в один клик</div>
             </div>
           </div>
-          <div className="promo-card-preview">
-            <div className="mock-bank-card">
-              <div className="mock-card-top">
-                <span>VaultOnline</span>
-                <span>BLACK VIP</span>
-              </div>
-              <div className="mock-card-balance">2 850 400,00 ₸</div>
-              <div className="mock-card-bottom">
-                <span>•••• 9421</span>
-                <span>08/28</span>
-              </div>
+
+          <div className="promo-qr-container">
+            <div className="qr-code-box">
+              <img src={qrCodeImg} alt="QR Code App" />
+            </div>
+            <div className="qr-text">
+              <h4>Скачайте приложение</h4>
+              <p>Наведите камеру смартфона, чтобы установить VaultOnline для iOS и Android</p>
             </div>
           </div>
         </section>
       </main>
 
-      {/* Модальное окно для интерактивности */}
       {modalContent && (
         <div className="modal-overlay" onClick={() => setModalContent(null)}>
           <div className="modal-box" onClick={(e) => e.stopPropagation()}>
