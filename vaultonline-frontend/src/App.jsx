@@ -19,6 +19,8 @@ export default function App() {
 
   // Модальное окно для интерактивности
   const [modalContent, setModalContent] = useState(null);
+  const [cardForm, setCardForm] = useState({ name: '', phone: '' });
+  const [cardSubmitted, setCardSubmitted] = useState(false);
 
   const getDepositRate = () => {
     if (currency === 'KZT') return 14.2;
@@ -84,10 +86,10 @@ export default function App() {
                 мгновенных инвестиций в пару кликов.
               </p>
               <div className="hero-actions">
-                <button className="btn-primary" onClick={() => handleActionClick('Открытие карты Vault Black')}>
+                <button className="btn-primary" onClick={() => { setCardSubmitted(false); setCardForm({ name: '', phone: '' }); handleActionClick('Открытие карты Vault Black'); }}>
                   Заказать карту
                 </button>
-                <button className="btn-secondary" onClick={() => handleActionClick('Обзор экосистемы VaultOnline')}>
+                <button className="btn-secondary" onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>
                   Узнать больше
                 </button>
               </div>
@@ -422,10 +424,32 @@ export default function App() {
       {modalContent && (
         <div className="modal-overlay" onClick={() => setModalContent(null)}>
           <div className="modal-box" onClick={(e) => e.stopPropagation()}>
-            <h3>VaultOnline Core</h3>
-            <p>Вы выбрали действие: <strong>{modalContent}</strong>.</p>
-            <p className="modal-sub">Интеграция со Spring Boot бэкендом настроена. Скоро здесь появится форма авторизации или подтверждения операции.</p>
-            <button className="btn-green" onClick={() => setModalContent(null)}>Понятно</button>
+            {modalContent === 'Открытие карты Vault Black' ? (
+              <>
+                <h3>Заказ карты Vault Black</h3>
+                {cardSubmitted ? (
+                  <>
+                    <p>Заявка заполнена. Это демонстрационная форма: данные пока не отправляются в банковскую систему.</p>
+                    <button className="btn-green" onClick={() => setModalContent(null)}>Закрыть</button>
+                  </>
+                ) : (
+                  <form className="card-order-form" onSubmit={(e) => { e.preventDefault(); setCardSubmitted(true); }}>
+                    <p className="modal-sub">Оставьте контактные данные, чтобы подготовить заявку.</p>
+                    <input aria-label="ФИО" placeholder="ФИО" value={cardForm.name} onChange={(e) => setCardForm({ ...cardForm, name: e.target.value })} required />
+                    <input aria-label="Телефон" placeholder="Номер телефона" type="tel" value={cardForm.phone} onChange={(e) => setCardForm({ ...cardForm, phone: e.target.value })} required />
+                    <button className="btn-green" type="submit">Подготовить заявку</button>
+                    <button className="modal-cancel" type="button" onClick={() => setModalContent(null)}>Отмена</button>
+                  </form>
+                )}
+              </>
+            ) : (
+              <>
+                <h3>VaultOnline Core</h3>
+                <p>Вы выбрали действие: <strong>{modalContent}</strong>.</p>
+                <p className="modal-sub">Этот раздел пока представлен демонстрационным окном.</p>
+                <button className="btn-green" onClick={() => setModalContent(null)}>Понятно</button>
+              </>
+            )}
           </div>
         </div>
       )}
