@@ -13,6 +13,11 @@ export default function Portal({ onBack }) {
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
   const [transfer, setTransfer] = useState({ recipientPhone: '', amount: '', description: '' });
+  const [userSearch, setUserSearch] = useState('');
+  const [transactionType, setTransactionType] = useState('ALL');
+  const [transactionStatus, setTransactionStatus] = useState('ALL');
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
 
   const request = async (url, options) => {
     const response = await authFetch(url, options);
@@ -96,6 +101,14 @@ export default function Portal({ onBack }) {
   </div></div>;
 
   const admin = user.role === 'ADMIN';
+  const filteredUsers = (data.users || []).filter(u => `${u.name || ''} ${u.phone || ''}`.toLowerCase().includes(userSearch.toLowerCase()));
+  const filteredTransactions = (data.transactions || []).filter(t => {
+    const date = t.createdAt ? new Date(t.createdAt) : null;
+    const day = date ? date.toISOString().slice(0, 10) : '';
+    return (transactionType === 'ALL' || t.type === transactionType) &&
+      (transactionStatus === 'ALL' || (t.status || 'COMPLETED') === transactionStatus) &&
+      (!dateFrom || day >= dateFrom) && (!dateTo || day <= dateTo);
+  });
   const nav = admin ? [['home','Обзор'],['users','Пользователи'],['history','Все операции'],['profile','Профиль']] : [['home','Обзор'],['transfer','Перевод'],['history','История операций'],['profile','Профиль']];
 
   return <div className="portal-layout">
@@ -114,8 +127,8 @@ export default function Portal({ onBack }) {
         <h2>Последние операции</h2><Transactions rows={(data.transactions||[]).slice(0,5)} />
       </>}
       {page==='transfer' && <><h1>Перевод денег</h1><p className="portal-muted">Перевод другому клиенту VaultOnline по номеру телефона</p><form className="portal-form" onSubmit={sendTransfer}><label>Телефон получателя<input value={transfer.recipientPhone} onChange={e=>setTransfer({...transfer,recipientPhone:e.target.value})} required placeholder="+7 700 000 00 00" /></label><label>Сумма, ₸<input type="number" min="1" step="1" value={transfer.amount} onChange={e=>setTransfer({...transfer,amount:e.target.value})} required /></label><label>Комментарий<input value={transfer.description} onChange={e=>setTransfer({...transfer,description:e.target.value})} placeholder="Например, за обед" /></label><button className="portal-primary" disabled={busy}>Отправить перевод</button></form></>}
-      {page==='history' && <><h1>{admin?'Все операции':'История операций'}</h1><Transactions rows={data.transactions||[]} /></>}
-      {page==='users' && <><h1>Пользователи</h1><div className="portal-table-wrap"><table><thead><tr><th>Имя</th><th>Телефон</th><th>Роль</th><th>Баланс</th><th>Статус</th><th></th></tr></thead><tbody>{(data.users||[]).map(u=><tr key={u.id}><td>{u.name}</td><td>{u.phone}</td><td>{u.role}</td><td>{money(u.balance)}</td><td>{u.blocked?'Заблокирован':'Активен'}</td><td><button className="portal-small" onClick={()=>toggleBlock(u.id)}>{u.blocked?'Разблокировать':'Заблокировать'}</button></td></tr>)}</tbody></table></div></>}
+      {page==='history' && <><h1>{admin?'Все операции':'История операций'}</h1><div className="portal-filters"><select value={transactionType} onChange={e=>setTransactionType(e.target.value)}><option value="ALL">Все типы</option><option value="IN">Пополнение</option><option value="OUT">Перевод</option></select><select value={transactionStatus} onChange={e=>setTransactionStatus(e.target.value)}><option value="ALL">Все статусы</option><option value="COMPLETED">Выполнено</option><option value="PENDING">В обработке</option><option value="FAILED">Отклонено</option></select><label>С даты<input type="date" value={dateFrom} onChange={e=>setDateFrom(e.target.value)} /></label><label>По дату<input type="date" value={dateTo} onChange={e=>setDateTo(e.target.value)} /></label><button className="portal-small" onClick={()=>{setTransactionType('ALL');setTransactionStatus('ALL');setDateFrom('');setDateTo('');}}>Сбросить</button></div><Transactions rows={filteredTransactions} /></>}
+      {page==='users' && <><h1>Пользователи</h1><input className="portal-search" placeholder="Поиск по имени или телефону" value={userSearch} onChange={e=>setUserSearch(e.target.value)} /><div className="portal-table-wrap"><table><thead><tr><th>Имя</th><th>Телефон</th><th>Роль</th><th>Баланс</th><th>Статус</th><th></th></tr></thead><tbody>{filteredUsers.map(u=><tr key={u.id}><td>{u.name}</td><td>{u.phone}</td><td>{u.role}</td><td>{money(u.balance)}</td><td>{u.blocked?'Заблокирован':'Активен'}</td><td><button className="portal-small" onClick={()=>toggleBlock(u.id)}>{u.blocked?'Разблокировать':'Заблокировать'}</button></td></tr>)}</tbody></table></div></>}
       {page==='profile' && <><h1>Профиль</h1><div className="portal-profile"><p><span>Имя</span><b>{user.name}</b></p><p><span>Телефон</span><b>{user.phone}</b></p><p><span>Email</span><b>{user.email||'Не указан'}</b></p><p><span>Тип аккаунта</span><b>{admin?'Администратор':'Пользователь'}</b></p></div></>}
     </main>
   </div>;
