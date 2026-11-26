@@ -658,3 +658,4 @@ body {
     gap: 6px;
   }
 }
+.card-order-form{display:grid;gap:12px;margin-top:16px}.card-order-form input{width:100%;padding:12px;border:1px solid #454a52;border-radius:8px;background:#292d35;color:#fff;font:inherit}.card-order-form .modal-sub{margin:0 0 4px}.modal-cancel{background:transparent;border:0;color:#cbd5e1;padding:8px;cursor:pointer}
